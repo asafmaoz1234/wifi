@@ -16,9 +16,10 @@ class Devices(models.Model):
     createdAt = models.DateTimeField(default=timezone.now)
 
     def add_device_to_devices_table(self):
+        # TODO check empty udid
         if Devices.objects.filter(deviceUdid=self.deviceUdid).exists():
             return
-        Devices.save()
+        Devices.save(self)
 
 
 class UserReports(models.Model):
