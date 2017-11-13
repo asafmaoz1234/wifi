@@ -4,5 +4,5 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 
 
-class DataProviderConfig(AppConfig):
-    name = 'data_provider'
+class DataAggregatorConfig(AppConfig):
+    name = 'dataaggregator'

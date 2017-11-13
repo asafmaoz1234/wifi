@@ -1,0 +1,15 @@
+# Created by .ignore support plugin (hsz.mobi)
+.gitignore
+.idea/
+env_wifi/
+wifiexercise/dataaggregator/__init__.pyc
+wifiexercise/dataaggregator/admin.pyc
+wifiexercise/dataaggregator/migrations/
+wifiexercise/dataaggregator/models.pyc
+wifiexercise/dataaggregator/tests.pyc
+wifiexercise/dataprovider/migrations/
+wifiexercise/db.sqlite3
+wifiexercise/wifiexercise/__init__.pyc
+wifiexercise/wifiexercise/settings.pyc
+wifiexercise/wifiexercise/urls.pyc
+wifiexercise/wifiexercise/wsgi.pyc
