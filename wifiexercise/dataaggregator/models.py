@@ -1,9 +1,6 @@
 from django.db import models
+from django.forms import forms
 from django.utils import timezone
-
-
-# class ValidateAggregateDataRequestParams(request):
-#     pass
 
 
 class Wifi(models.Model):
@@ -26,6 +23,9 @@ class Wifi(models.Model):
         wifi_data = Wifi.objects.get(wifiId=self.wifiId)
         # response_dict = {'wifiId': wifi_data.}
 
+    @staticmethod
+    def get_wifi(wifi_id):
+        return Wifi.objects.get(wifiId=wifi_id)
 
     @staticmethod
     def is_wifi_exists(wifi_id):
@@ -40,8 +40,11 @@ class Devices(models.Model):
     deviceUdid = models.CharField(max_length=256)
     createdAt = models.DateTimeField(default=timezone.now)
 
+    @staticmethod
+    def get_device(device_udid):
+        return Devices.objects.get(deviceUdid=device_udid)
+
     def add_device_to_devices_table(self):
-        # TODO add clean
         try:
             Devices.objects.get(deviceUdid=self.deviceUdid)
         except (KeyError, Devices.DoesNotExist):
@@ -54,7 +57,7 @@ class WifiStatusReports(models.Model):
     wifiThroughPut = models.FloatField(default=0)
 
     def add_wifi_status_report(self):
-        pass
+        WifiStatusReports.save(self)
 
 
 class AggregatedWifiData(models.Model):
@@ -71,9 +74,6 @@ class AggregatedWifiData(models.Model):
 
     def get_aggregated_average_through_put_rating(self):
         pass
-
-
-
 
 
 
