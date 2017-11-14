@@ -22,10 +22,13 @@ class Devices(models.Model):
         Devices.save(self)
 
 
-class UserReports(models.Model):
+class WifiStatusReports(models.Model):
     wifiId = models.ForeignKey(Wifi, on_delete=models.DO_NOTHING)
     deviceId = models.ForeignKey(Devices, on_delete=models.DO_NOTHING, default=0)
     wifiThroughPut = models.FloatField(default=0)
+
+    def add_wifi_status_report(self):
+        pass
 
 
 class AggregatedWifiData(models.Model):
