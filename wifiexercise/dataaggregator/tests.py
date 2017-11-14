@@ -28,5 +28,18 @@ class DeviceModelTests(TestCase):
         self.assertIs(devices.pk, 1)
 
 
+class WifStatusReportsTests(TestCase):
+    wifiId = ''
+    deviceId = ''
+    wifiThroughPut = 0
+
+    def setUp(self):
+        pass
+
+    def test_add_wifi_status_report(self):
+        pass
+
+
+
 
 
