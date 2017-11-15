@@ -1,9 +1,10 @@
 from django.db import models
-from django.forms import forms
 from django.utils import timezone
+from django.db.models import F
 
 
 class Wifi(models.Model):
+
     AUTH_TYPES = (('other', 'other'), ('wap', 'wap'))
 
     wifiId = models.CharField(max_length=256, primary_key=True)
@@ -16,12 +17,9 @@ class Wifi(models.Model):
             return
         Wifi.save(self)
 
-    def update_average_through_put_rating(self, wifi_id, avg_rating):
+    @staticmethod
+    def update_average_through_put_rating(wifi_id, avg_rating):
         Wifi(wifiId=wifi_id, wifiAverageThroughPutRating=avg_rating).save()
-
-    def get_wifi_stats(self):
-        wifi_data = Wifi.objects.get(wifiId=self.wifiId)
-        # response_dict = {'wifiId': wifi_data.}
 
     @staticmethod
     def get_wifi(wifi_id):
@@ -62,18 +60,23 @@ class WifiStatusReports(models.Model):
 
 class AggregatedWifiData(models.Model):
     wifiId = models.ForeignKey(Wifi, on_delete=models.DO_NOTHING)
-    totalReportersCount = models.IntegerField(null=True)
-    totalThroughPutRating = models.FloatField()
+    totalReportersCount = models.IntegerField(default=0)
+    totalThroughPutRating = models.FloatField(default=0)
     createdAt = models.DateTimeField(default=timezone.now)
 
-    def increment_total_report_count(self):
-        pass
+    def aggregate_wifi_data(self, through_put):
+        if not AggregatedWifiData.objects.filter(wifiId=self.wifiId):
+            AggregatedWifiData.objects.create(wifiId=self.wifiId).save()
+        self.update_existing_wifi_details(through_put)
 
-    def update_total_through_put_rating(self):
-        pass
+    def update_existing_wifi_details(self, through_put):
+        AggregatedWifiData.objects.filter(wifiId=self.wifiId)\
+            .update(totalReportersCount=F('totalReportersCount')+1
+                    , totalThroughPutRating=F('totalThroughPutRating')+through_put)
 
-    def get_aggregated_average_through_put_rating(self):
-        pass
+    def get_new_throughput_avg(self):
+        record = AggregatedWifiData.objects.get(wifiId=self.wifiId)
+        return record.totalThroughPutRating / record.totalReportersCount
 
 
 
