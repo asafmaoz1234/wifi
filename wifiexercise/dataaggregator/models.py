@@ -5,7 +5,7 @@ from django.db.models import F
 
 class Wifi(models.Model):
 
-    AUTH_TYPES = (('other', 'other'), ('wap', 'wap'))
+    AUTH_TYPES = ((0, 'other'), (1, 'wap'))
 
     wifiId = models.CharField(max_length=256, primary_key=True)
     wifiAuthType = models.CharField(max_length=10, choices=AUTH_TYPES, default=AUTH_TYPES[0])
